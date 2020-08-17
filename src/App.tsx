@@ -1,25 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, Fragment, FormEvent} from 'react';
 
-function App() {
+ //React esto es un form event y esto viene por parte de un elemento de html for element
+type FormElement = React.FormEvent<HTMLFormElement>;
+
+
+function App(): JSX.Element {
+
+  const [newTask, setNewTask] = useState<string>("");
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <form>
+        <input type="text" onChange={(e) => setNewTask(e.target.value)} />
+        <button>Guardar</button>
+      </form>
+    </>
   );
 }
 
