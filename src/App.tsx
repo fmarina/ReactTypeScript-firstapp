@@ -17,17 +17,23 @@ function App(): JSX.Element {
     e.preventDefault();
     addTasks(newTask);
     setNewTask("");
-    console.log(tasks);
   }
 
-  const addTasks = (name: string) => {
+  const addTasks = (name: string): void => {
+    if(!name) return alert("debe ingresa una tarea")
     const newTasks: ITask[] = [...tasks, {name, done: false}];
     setTasks(newTasks);
   }
 
-  const toggleDoneTask = (i: number) => {
+  const toggleDoneTask = (i: number): void => {
     const newTasks: ITask[] = [...tasks];
     newTasks[i].done = !newTasks[i].done;
+    setTasks(newTasks);
+  }
+
+  const removeTask = (i: number): void => {
+    const newTasks: ITask[] = [...tasks];
+    newTasks.splice(i, 1);
     setTasks(newTasks);
   }
 
@@ -57,7 +63,10 @@ function App(): JSX.Element {
                 </h2>
                 <div>
                   <button className="btn btn-secondary" onClick={()=> toggleDoneTask(i)}> 
-                    { task.done ? '✓' : '✗' }
+                    { task.done ? '✗' : '✓' }
+                  </button>
+                  <button className="btn btn-danger" onClick={() => removeTask(i)}>
+                    🗑
                   </button>
                 </div>
               </div>              
