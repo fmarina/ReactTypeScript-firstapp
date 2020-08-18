@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import 'bootswatch/dist/lumen/bootstrap.min.css';
  //React esto es un form event y esto viene por parte de un elemento de html for element
 type FormElement = React.FormEvent<HTMLFormElement>;
@@ -12,11 +12,13 @@ function App(): JSX.Element {
 
   const [newTask, setNewTask] = useState<string>("");
   const [tasks, setTasks] = useState<ITask[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: FormElement) => {
     e.preventDefault();
     addTasks(newTask);
-    setNewTask("");
+    setNewTask("");    
+    inputRef.current?.focus();
   }
 
   const addTasks = (name: string): void => {
@@ -50,6 +52,7 @@ function App(): JSX.Element {
                   value={newTask} 
                   className="form-control"
                   autoFocus
+                  ref={inputRef}
                 />
                 <button className="btn btn-success btn-block mt-2">Guardar</button>
               </form>
