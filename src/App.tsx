@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import 'bootswatch/dist/lumen/bootstrap.min.css';
  //React esto es un form event y esto viene por parte de un elemento de html for element
 type FormElement = React.FormEvent<HTMLFormElement>;
 interface ITask {
@@ -16,6 +17,7 @@ function App(): JSX.Element {
     e.preventDefault();
     addTasks(newTask);
     setNewTask("");
+    console.log(tasks);
   }
 
   const addTasks = (name: string) => {
@@ -23,14 +25,47 @@ function App(): JSX.Element {
     setTasks(newTasks);
   }
 
+  const toggleDoneTask = (i: number) => {
+    const newTasks: ITask[] = [...tasks];
+    newTasks[i].done = !newTasks[i].done;
+    setTasks(newTasks);
+  }
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input type="text" onChange={(e) => setNewTask(e.target.value)} value={newTask} />
-        <button>Guardar</button>
-      </form>
-      { tasks.map((task: ITask, i: number) => <h1 key={i}>{task.name}</h1>) }
-    </>
+    <div className="container p-4">
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <div className="card">
+            <div className="card-body">
+              <form onSubmit={handleSubmit}>
+                <input 
+                  type="text" 
+                  onChange={(e) => setNewTask(e.target.value)} 
+                  value={newTask} 
+                  className="form-control"
+                  autoFocus
+                />
+                <button className="btn btn-success btn-block mt-2">Guardar</button>
+              </form>
+            </div>
+          </div>      
+          { 
+            tasks.map((task: ITask, i: number) => (
+              <div key={i} className="card card-body mt-2">
+                <h2 style={{textDecoration: task.done ? 'line-through' : ''}}>
+                  {task.name}
+                </h2>
+                <div>
+                  <button className="btn btn-secondary" onClick={()=> toggleDoneTask(i)}> 
+                    { task.done ? '✓' : '✗' }
+                  </button>
+                </div>
+              </div>              
+            ))
+          }
+        </div>
+      </div>
+    </div>
   );
 }
 
